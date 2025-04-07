@@ -7,6 +7,8 @@ import matter from 'gray-matter';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
+import { MDXRemoteProps } from 'next-mdx-remote';
+import { JSXElementConstructor, ReactElement } from 'react';
 
 const BLOG_DIR = '_blog';
 
@@ -18,7 +20,7 @@ export interface BlogPost {
   excerpt: string;
   readTime: string;
   image?: string;
-  content: string;
+  content: ReactElement<any, string | JSXElementConstructor<any>>;
 }
 
 export async function fetchBlogPosts() {
@@ -91,7 +93,7 @@ export async function fetchBlogPosts() {
   }
 }
 
-export async function fetchBlogPost(slug: string) {
+export async function fetchBlogPost(slug: string): Promise<BlogPost | null> {
   if (!slug) {
     console.error('No slug provided');
     return null;
@@ -123,12 +125,24 @@ export async function fetchBlogPost(slug: string) {
         }
       });
 
+      // Calculate read time based on words per minute (assuming 200 words per minute)
+      const wordCount = mdxContent.split(/\s+/).length;
+      const readTime = `${Math.ceil(wordCount / 200)} min read`;
+
+      if (!frontmatter.title || !frontmatter.date || !frontmatter.author || !frontmatter.excerpt) {
+        console.error(`Missing required frontmatter in ${slug}.mdx`);
+        return null;
+      }
+
       return {
-        ...frontmatter,
         slug,
-        content: compiledContent,
-        wordCount: mdxContent.split(/\s+/).length,
-        readingTime: Math.ceil(mdxContent.split(/\s+/).length / 200)
+        title: frontmatter.title,
+        date: frontmatter.date,
+        author: frontmatter.author,
+        excerpt: frontmatter.excerpt,
+        readTime,
+        image: frontmatter.image,
+        content: compiledContent
       };
     } catch (mdxError) {
       console.error(`MDX compilation failed for ${slug}:`, mdxError);

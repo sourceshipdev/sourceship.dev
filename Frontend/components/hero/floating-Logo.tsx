@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import logo from "../public/logo/logo.png";
+import logo from "../../public/logo/logo.png";
 import { useEffect, useState } from "react";
 
 const messages = [

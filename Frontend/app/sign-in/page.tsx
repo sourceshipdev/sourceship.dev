@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Github, Twitter, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MemoizedBackground } from "@/components/background";
+import { MemoizedBackground } from "@/components/hero/background";
 import Navbar from "@/components/navbar";
 import { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";

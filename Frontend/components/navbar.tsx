@@ -7,7 +7,7 @@ import Logo from "../public/logo/logo.png";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type React from "react";
-import { GitHubStars } from "@/components/github-stars";
+import { GitHubStars } from "@/components/hero/github-stars";
 
 export default function Navbar() {
   return (

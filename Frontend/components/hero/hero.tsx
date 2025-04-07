@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { LogIn, Info } from "lucide-react";
-import { FloatingLogo } from "@/components/floating-Logo";
-import { CompanyScroll } from "@/components/company-scroll";
+import { FloatingLogo } from "@/components/hero/floating-Logo";
+import { CompanyScroll } from "@/components/hero/company-scroll";
 import Link from "next/link";
-import AnnouncementBadge from "@/components/announcement-badge";
+import AnnouncementBadge from "@/components/hero/announcement-badge";
 
 export default function Hero() {
   return (

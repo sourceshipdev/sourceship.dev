@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, User } from "lucide-react";
 import type { BlogPost } from '@/lib/blog';
+import { Suspense } from 'react';
 
 interface BlogPostContentProps {
   post: BlogPost;
@@ -61,8 +62,11 @@ export default function BlogPostContent({ post }: BlogPostContentProps) {
           [&_blockquote]:border-l-4
           [&_blockquote]:pl-4
           [&_blockquote]:italic"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      >
+        <Suspense fallback={<div>Loading...</div>}>
+          {post.content}
+        </Suspense>
+      </div>
     </motion.div>
   );
 } 

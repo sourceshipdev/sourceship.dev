@@ -25,8 +25,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Main layout (commented out for maintenance)
-  /*
   return (
     <html lang="en">
       <head>
@@ -46,15 +44,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
-  */
-
-  // Maintenance mode
-  return (
-    <html lang="en">
-      <body>
-        <div>Under maintenance :) </div>
-      </body>
-    </html>
-  );
+  ); 
 }

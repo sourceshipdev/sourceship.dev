@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { CalendarDays, Clock, User, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/navbar";
@@ -8,6 +8,7 @@ import BlogPostContent from '@/components/blog/blog-post-content';
 import 'highlight.js/styles/github-dark.css';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function BlogPost({
   params,

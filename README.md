@@ -1,3 +1,5 @@
+![Sourceship PNG Logo](Frontend/public/logo/logo_transparent.png)
+
 # Sourceship.dev 
 The open source internship alternative.
 Showcase your skills through real impact and turn your contributions into portfolios, presentations, and recruitable insights.

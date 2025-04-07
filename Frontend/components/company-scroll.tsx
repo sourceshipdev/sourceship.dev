@@ -85,7 +85,7 @@ const logos = [
   {
     image: "/logo/example.png",
     alt: "example",
-    name: "example",
+    name: "example ",
   },
 ];
 

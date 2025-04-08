@@ -1,9 +1,11 @@
-import { createClient } from '@/utils/supabase/server'
+import { type EmailOtpType } from '@supabase/supabase-js'
 import { NextResponse, type NextRequest } from 'next/server'
+import { createClient } from '@/utils/supabase/server'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
-  const code = requestUrl.searchParams.get('code')
+  const token_hash = requestUrl.searchParams.get('token_hash')
+  const type = requestUrl.searchParams.get('type') as EmailOtpType | null
   const error = requestUrl.searchParams.get('error')
   const error_description = requestUrl.searchParams.get('error_description')
 
@@ -16,23 +18,28 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  if (code) {
+  if (token_hash && type) {
     const supabase = await createClient()
+
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    })
     
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
-    
-    if (!exchangeError) {
-      // Always redirect to dashboard after successful authentication
+    if (!verifyError) {
+      // Successful verification - redirect to dashboard
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
+    // Handle verification error
     const loginUrl = new URL('/login', request.url)
     loginUrl.hash = new URLSearchParams({
-      error: 'exchange_failed',
-      error_description: exchangeError.message
+      error: 'verification_failed',
+      error_description: verifyError.message
     }).toString()
     return NextResponse.redirect(loginUrl)
   }
 
+  // If no token_hash or type, redirect to login
   return NextResponse.redirect(new URL('/login', request.url))
-} 
+}

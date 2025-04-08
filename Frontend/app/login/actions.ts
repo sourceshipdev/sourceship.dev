@@ -17,7 +17,7 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${baseUrl}/auth/callback`,
+      emailRedirectTo: `${baseUrl}/auth/confirm`,
     },
   })
 
@@ -45,7 +45,7 @@ export async function signup(formData: FormData) {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${baseUrl}/auth/callback`,
+      emailRedirectTo: `${baseUrl}/auth/confirm`,
       data: {
         source: 'signup'
       }

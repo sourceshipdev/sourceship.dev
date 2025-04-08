@@ -3,70 +3,96 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
   try {
-    let supabaseResponse = NextResponse.next({
+    // Create initial response
+    const response = NextResponse.next({
       request,
     })
 
+    // Check if required environment variables are set
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.error('Missing Supabase environment variables')
+      return response
+    }
+
+    // Create supabase client with simplified cookie handling
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
       {
         cookies: {
           get(name: string) {
-            return request.cookies.get(name)?.value
+            try {
+              return request.cookies.get(name)?.value
+            } catch (error) {
+              console.error('Cookie get error:', error)
+              return undefined
+            }
           },
           set(name: string, value: string, options: any) {
-            request.cookies.set({
-              name,
-              value,
-              ...options,
-            })
-            supabaseResponse.cookies.set({
-              name,
-              value,
-              ...options,
-            })
+            try {
+              response.cookies.set({
+                name,
+                value,
+                ...options,
+              })
+            } catch (error) {
+              console.error('Cookie set error:', error)
+            }
           },
           remove(name: string, options: any) {
-            request.cookies.delete({
-              name,
-              ...options,
-            })
-            supabaseResponse.cookies.delete({
-              name,
-              ...options,
-            })
+            try {
+              response.cookies.delete({
+                name,
+                ...options,
+              })
+            } catch (error) {
+              console.error('Cookie remove error:', error)
+            }
           },
         },
       }
     )
 
-    // Refresh session if it exists
-    const { data: { session }, error } = await supabase.auth.getSession()
+    try {
+      // Attempt to get session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
-    if (error) {
-      console.error('Auth error:', error.message)
-      return supabaseResponse
+      if (sessionError) {
+        console.error('Session error:', sessionError.message)
+        return response
+      }
+
+      // List of public routes that don't require authentication
+      const publicRoutes = [
+        '/login',
+        '/auth',
+        '/sign-up',
+        '/how-it-works',
+        '/blog',
+        '/'
+      ]
+
+      // Check if current path is public
+      const isPublicRoute = publicRoutes.some(route => 
+        request.nextUrl.pathname === route || 
+        request.nextUrl.pathname.startsWith(route + '/')
+      )
+
+      // Redirect to login if not authenticated and not on a public route
+      if (!session && !isPublicRoute) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/login'
+        return NextResponse.redirect(url)
+      }
+
+      return response
+    } catch (error) {
+      console.error('Auth check error:', error)
+      return response
     }
-
-    if (
-      !session &&
-      !request.nextUrl.pathname.startsWith('/login') &&
-      !request.nextUrl.pathname.startsWith('/auth') &&
-      !request.nextUrl.pathname.startsWith('/sign-up') &&
-      !request.nextUrl.pathname.startsWith('/how-it-works') &&
-      !request.nextUrl.pathname.startsWith('/blog') &&
-      request.nextUrl.pathname !== '/'
-    ) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      return NextResponse.redirect(url)
-    }
-
-    return supabaseResponse
-  } catch (e) {
-    // If there's an error, allow the request to continue but log the error
-    console.error('Middleware error:', e)
+  } catch (error) {
+    console.error('Middleware error:', error)
+    // Return a basic response in case of critical error
     return NextResponse.next({
       request,
     })

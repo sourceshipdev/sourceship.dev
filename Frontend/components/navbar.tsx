@@ -1,15 +1,39 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import Image from "next/image";
 import Logo from "../public/logo/logo.png";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type React from "react";
 import { GitHubStars } from "@/components/hero/github-stars";
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Navbar() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push('/login');
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -27,18 +51,33 @@ export default function Navbar() {
         <GitHubStars />
       </div>
 
-      <div className="hidden md:flex items-center space-x-4">
-        <Link href="/sign-in">
-          <Button variant="ghost" className="text-white hover:text-[#FF4D94]">
-            Sign In
-          </Button>
-        </Link>
-        <Link href="/create-account">
-          <Button className="bg-[#FF4D94] hover:bg-[#FF4D94]/80 text-black">
-            Join Waitlist
-          </Button>
-        </Link>
-      </div>
+      {!loading && (
+        <div className="hidden md:flex items-center space-x-4">
+          {isAuthenticated ? (
+            <Button 
+              onClick={handleSignOut}
+              variant="ghost" 
+              className="text-white hover:text-[#FF4D94]"
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Log Out
+            </Button>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="ghost" className="text-white hover:text-[#FF4D94]">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button className="bg-[#FF4D94] hover:bg-[#FF4D94]/80 text-black">
+                  Join Waitlist
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+      )}
 
       <Button variant="ghost" size="icon" className="md:hidden text-white">
         <Menu className="w-6 h-6" />

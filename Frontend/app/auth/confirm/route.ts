@@ -1,1 +1,0 @@
-// Delete this file as we're using /auth/callback/route.ts instead

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Menu, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Image from "next/image";
 import Logo from "../public/logo/logo.png";
 import { motion } from "framer-motion";
@@ -31,58 +31,47 @@ export default function Navbar() {
   const handleSignOut = async () => {
     const supabase = createClient();
     await supabase.auth.signOut();
-    router.push('/login');
+    router.push('/');
   };
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className="flex items-center justify-between px-6 py-4 backdrop-blur-sm border-b border-white/10"
-    >
-      <Link href="/" className="flex items-center space-x-2">
-        <Image src={Logo} alt="logo" className="w-8 h-8" />
-        <span className="text-white font-medium text-xl">SourceShip.dev</span>
-      </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-xl">
+      <nav className="container mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="flex items-center space-x-8">
+          <Link href="/" className="flex items-center space-x-2">
+            <Image src={Logo} alt="Logo" width={32} height={32} />
+            <span className="font-bold text-white">SourceShip</span>
+          </Link>
+          
+          <div className="hidden md:flex items-center space-x-6">
+            <NavLink href="/how-it-works">How it Works</NavLink>
+            <NavLink href="/blog">Blog</NavLink>
+          </div>
+        </div>
 
-      <div className="hidden md:flex items-center space-x-8">
-        <NavLink href="/how-it-works">How it Works</NavLink>
-        <NavLink href="/blog">Blog</NavLink>
-        <GitHubStars />
-      </div>
-
-      {!loading && (
-        <div className="hidden md:flex items-center space-x-4">
-          {isAuthenticated ? (
-            <Button 
+        <div className="flex items-center space-x-4">
+          <GitHubStars />
+          {!loading && isAuthenticated ? (
+            <Button
               onClick={handleSignOut}
-              variant="ghost" 
-              className="text-white hover:text-[#FF4D94]"
+              variant="ghost"
+              className="text-white hover:text-white/80"
             >
-              <LogOut className="w-4 h-4 mr-2" />
-              Log Out
+              <LogOut className="h-5 w-5 mr-2" />
+              Sign Out
             </Button>
           ) : (
-            <>
-              <Link href="/login">
-                <Button variant="ghost" className="text-white hover:text-[#FF4D94]">
-                  Sign In
-                </Button>
-              </Link>
-              <Link href="/sign-up">
-                <Button className="bg-[#FF4D94] hover:bg-[#FF4D94]/80 text-black">
-                  Join Waitlist
-                </Button>
-              </Link>
-            </>
+            <Link href="/login">
+              <Button
+                className="bg-[#FF4D94] hover:bg-[#FF4D94]/80 text-black"
+              >
+                Join Waitlist
+              </Button>
+            </Link>
           )}
         </div>
-      )}
-
-      <Button variant="ghost" size="icon" className="md:hidden text-white">
-        <Menu className="w-6 h-6" />
-      </Button>
-    </motion.nav>
+      </nav>
+    </header>
   );
 }
 

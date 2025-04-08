@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse, type NextRequest } from 'next/server'
-import { cookies } from 'next/headers'
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
@@ -8,7 +7,6 @@ export async function GET(request: NextRequest) {
   const error = requestUrl.searchParams.get('error')
   const error_description = requestUrl.searchParams.get('error_description')
 
-  // If there's an error parameter, redirect to login with error
   if (error) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.hash = new URLSearchParams({
@@ -24,10 +22,10 @@ export async function GET(request: NextRequest) {
     const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!exchangeError) {
+      // Always redirect to dashboard after successful authentication
       return NextResponse.redirect(new URL('/dashboard', request.url))
     }
 
-    // If exchange fails, redirect to login with error
     const loginUrl = new URL('/login', request.url)
     loginUrl.hash = new URLSearchParams({
       error: 'exchange_failed',
@@ -36,6 +34,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  // No code or error, redirect to login
   return NextResponse.redirect(new URL('/login', request.url))
 } 

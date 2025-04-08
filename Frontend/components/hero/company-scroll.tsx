@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { range } from "lodash";
 import Image from "next/image";
+import exampleLogo from "../../public/logo/example.png";
 
 interface Props {
   showHeading?: boolean;
@@ -13,79 +14,64 @@ interface Props {
 
 const logos = [
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
   },
   {
-    image: "/logo/example.png",
+    image: exampleLogo,
     alt: "example",
     name: "example",
-  },
-  {
-    image: "/logo/example.png",
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: "/logo/example.png",
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: "/logo/example.png",
-    alt: "example",
-    name: "example ",
   },
 ];
 
@@ -96,10 +82,11 @@ const LogosRow = ({ className }: { className?: string }) => (
         <Image
           src={logo.image}
           alt={logo.alt}
-          width={96}
-          height={48}
-          className="h-12 lg:h-12 !min-h-12 lg:!min-h-12 w-auto block grayscale opacity-40 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+          width={120}
+          height={60}
+          className="h-12 lg:h-12 !min-h-12 lg:!min-h-12 w-auto block grayscale hover:grayscale-0 transition-all duration-300"
           draggable={false}
+          priority
         />
       </div>
     ))}

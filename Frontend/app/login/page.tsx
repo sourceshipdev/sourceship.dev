@@ -122,8 +122,8 @@ export default function SignIn() {
   return (
     <main className="min-h-screen bg-[#05000c]/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
       <MemoizedBackground />
-      <MemoizedSignInLayout showSuccess={showSuccess}>
-        <div className="container mx-auto px-6 py-12">
+      <MemoizedSignInLayout showSuccess={!!successMessage}>
+        <div className="container mx-auto px-6 pt-24 pb-12">
           <div className="max-w-md mx-auto">
             {loading ? (
               <motion.div
@@ -170,7 +170,7 @@ export default function SignIn() {
                 className="bg-black/40 p-8 rounded-2xl backdrop-blur-sm border border-white/10"
               >
                 <h2 className="text-2xl font-bold text-white mb-8 text-center">
-                  Sign In
+                  Join Waitlist
                 </h2>
                 {formError && (
                   <motion.div
@@ -214,13 +214,7 @@ export default function SignIn() {
                 </form>
                 <div className="mt-8 text-center">
                   <p className="text-white/60 text-sm">
-                    Don't have an account?{" "}
-                    <Link
-                      href="/sign-up"
-                      className="text-[#FF4D94] hover:text-[#FF4D94]/80"
-                    >
-                      Sign up
-                    </Link>
+                    By signing in, you'll be added to our waitlist.
                   </p>
                 </div>
               </motion.div>

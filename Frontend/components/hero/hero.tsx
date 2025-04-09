@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { LogIn, Info } from "lucide-react";
-import { FloatingLogo } from "@/components/hero/floating-Logo";
 import { CompanyScroll } from "@/components/hero/company-scroll";
 import Link from "next/link";
 import AnnouncementBadge from "@/components/hero/announcement-badge";
@@ -94,9 +93,6 @@ export default function Hero() {
             </motion.div>
           </div>
         </div>
-      </div>
-      <div className="absolute bottom-0 right-0 w-96 h-96">
-        <FloatingLogo />
       </div>
     </div>
   );

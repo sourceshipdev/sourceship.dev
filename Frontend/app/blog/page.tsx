@@ -1,12 +1,12 @@
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/navbar";
-import Blogpost from '@/components/blog/blogpost';
-import { fetchBlogPosts } from '@/lib/blog';
-import BlogList from '@/components/blog/blog-list';
+import Navbar from "@/components/navbardemo";
+import Blogpost from "@/components/blog/blogpost";
+import { fetchBlogPosts } from "@/lib/blog";
+import BlogList from "@/components/blog/blog-list";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function Blog() {
   const posts = await fetchBlogPosts();
@@ -19,7 +19,10 @@ export default async function Blog() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-24">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-                B<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D94] via-[#FF904D] to-[#2D0153]/90">log</span>
+                B
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D94] via-[#FF904D] to-[#2D0153]/90">
+                  log
+                </span>
               </h1>
               <p className="text-gray-400 text-xl">
                 Insights, Updates, and Stories

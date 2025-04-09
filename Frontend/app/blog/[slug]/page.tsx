@@ -2,12 +2,12 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbardemo";
 import { fetchBlogPost } from "@/lib/blog";
-import BlogPostContent from '@/components/blog/blog-post-content';
-import 'highlight.js/styles/github-dark.css';
+import BlogPostContent from "@/components/blog/blog-post-content";
+import "highlight.js/styles/github-dark.css";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function BlogPost({
@@ -43,4 +43,4 @@ export default async function BlogPost({
       </div>
     </main>
   );
-} 
+}

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Trophy, Brain, Target, Rocket, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbardemo";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { useDelayedReveal } from "@/hooks/use-delayed-reveal";
 
@@ -22,7 +22,10 @@ export default function HowItWorks() {
               className="text-center mb-24"
             >
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-                How <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D94] via-[#FF904D] to-[#2D0153]/90">It Works</span>
+                How{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D94] via-[#FF904D] to-[#2D0153]/90">
+                  It Works
+                </span>
               </h1>
               <p className="text-gray-400 text-xl">
                 Build your portfolio through real-world impact.
@@ -53,7 +56,12 @@ export default function HowItWorks() {
                     icon={<Rocket className="w-6 h-6 text-[#FF4D94]" />}
                     title="AI-Powered Portfolio"
                     description={
-                      <span className="text-lg">Our AI automatically builds a professional portfolio from your projects, highlighting your best work for recruiters.</span>}
+                      <span className="text-lg">
+                        Our AI automatically builds a professional portfolio
+                        from your projects, highlighting your best work for
+                        recruiters.
+                      </span>
+                    }
                   />
                 }
               />
@@ -86,7 +94,12 @@ export default function HowItWorks() {
                     icon={<Target className="w-6 h-6 text-[#FF4D94]" />}
                     title="Career-Boosting Opportunities"
                     description={
-                      <span className="text-lg">Companies discover talent based on real contributions, giving you direct hiring opportunities without the hassle of traditional applications.</span>}
+                      <span className="text-lg">
+                        Companies discover talent based on real contributions,
+                        giving you direct hiring opportunities without the
+                        hassle of traditional applications.
+                      </span>
+                    }
                   />
                 }
               />
@@ -97,7 +110,11 @@ export default function HowItWorks() {
                     icon={<Users className="w-6 h-6 text-[#FF4D94]" />}
                     title="Community Growth"
                     description={
-                      <span className="text-lg">Join a community of developers who are passionate about building and growing together.</span>}
+                      <span className="text-lg">
+                        Join a community of developers who are passionate about
+                        building and growing together.
+                      </span>
+                    }
                   />
                 }
               />

@@ -25,7 +25,7 @@ export function GitHubStars() {
       href="https://github.com/sourceshipdev/sourceship.dev"
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center space-x-1 px-3 py-1 rounded-md bg-white/5 hover:bg-white/10 transition-colors"
+      className="flex items-center space-x-1 rounded-md "
     >
       <Star className="w-4 h-4 text-yellow-400" />
       <span className="text-sm text-white font-medium">{stars}</span>

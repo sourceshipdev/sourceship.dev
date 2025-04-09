@@ -7,12 +7,18 @@ import { MemoizedBackground } from "@/components/hero/background";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { signup } from '../login/actions'
+import { signup } from "../login/actions";
 import React from "react";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbardemo";
 import { Github } from "lucide-react";
 
-const SignInLayout = ({ children, showSuccess }: { children: React.ReactNode, showSuccess: boolean }) => {
+const SignInLayout = ({
+  children,
+  showSuccess,
+}: {
+  children: React.ReactNode;
+  showSuccess: boolean;
+}) => {
   return (
     <div className="relative z-10">
       {!showSuccess && <Navbar />}
@@ -27,22 +33,24 @@ export default function CreateAccount() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [formError, setFormError] = useState<string | undefined>(undefined);
-  const [successMessage, setSuccessMessage] = useState<string | undefined>(undefined);
+  const [successMessage, setSuccessMessage] = useState<string | undefined>(
+    undefined,
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(undefined);
-    
+
     if (!isValidEmail(email)) {
-      setFormError('Please enter a valid email address.');
+      setFormError("Please enter a valid email address.");
       return;
     }
 
     setLoading(true);
-    
+
     try {
       const formData = new FormData();
-      formData.append('email', email);
+      formData.append("email", email);
 
       const result = await signup(formData);
 
@@ -54,8 +62,8 @@ export default function CreateAccount() {
         setLoading(false);
       }
     } catch (error: any) {
-      console.error('Error signing up:', error);
-      setFormError('An error occurred during sign up. Please try again.');
+      console.error("Error signing up:", error);
+      setFormError("An error occurred during sign up. Please try again.");
       setLoading(false);
     }
   };
@@ -66,7 +74,9 @@ export default function CreateAccount() {
   };
 
   const handleSocialSignIn = (provider: string) => {
-    setFormError('Please use email sign-up instead. Social sign-in coming soon!');
+    setFormError(
+      "Please use email sign-up instead. Social sign-in coming soon!",
+    );
   };
 
   return (
@@ -159,7 +169,7 @@ export default function CreateAccount() {
                   <div className="mt-6 grid grid-cols-2 gap-4">
                     <Button
                       variant="outline"
-                      onClick={() => handleSocialSignIn('github')}
+                      onClick={() => handleSocialSignIn("github")}
                       className="bg-black/50 border-white/10 text-white hover:bg-black/70"
                     >
                       <Github className="mr-2 h-4 w-4" />
@@ -167,7 +177,7 @@ export default function CreateAccount() {
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => handleSocialSignIn('google')}
+                      onClick={() => handleSocialSignIn("google")}
                       className="bg-black/50 border-white/10 text-white hover:bg-black/70"
                     >
                       <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
@@ -211,4 +221,4 @@ export default function CreateAccount() {
       </MemoizedSignInLayout>
     </main>
   );
-} 
+}

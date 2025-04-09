@@ -5,13 +5,13 @@ import { Github, Twitter, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MemoizedBackground } from "@/components/hero/background";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbardemo";
 import { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { login, signup } from './actions'
-import { useRouter } from 'next/navigation'
+import { login, signup } from "./actions";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const SuccessAnimation = () => (
@@ -50,7 +50,13 @@ const isValidEmail = (email: string) => {
   return emailRegex.test(email);
 };
 
-const SignInLayout = ({ children, showSuccess }: { children: React.ReactNode, showSuccess: boolean }) => {
+const SignInLayout = ({
+  children,
+  showSuccess,
+}: {
+  children: React.ReactNode;
+  showSuccess: boolean;
+}) => {
   const isLoginPage = true; // Since this is the login page
 
   return (
@@ -64,25 +70,29 @@ const SignInLayout = ({ children, showSuccess }: { children: React.ReactNode, sh
 const MemoizedSignInLayout = React.memo(SignInLayout);
 
 export default function SignIn() {
-  const router = useRouter()
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [formError, setFormError] = useState<string | undefined>(undefined);
-  const [successMessage, setSuccessMessage] = useState<string | undefined>(undefined);
+  const [successMessage, setSuccessMessage] = useState<string | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     // Check for error in URL hash
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const error = hashParams.get('error');
-      const errorDescription = hashParams.get('error_description');
-      
+      const error = hashParams.get("error");
+      const errorDescription = hashParams.get("error_description");
+
       if (error) {
-        setFormError(errorDescription?.replace(/\+/g, ' ') || 'Authentication failed');
-        
+        setFormError(
+          errorDescription?.replace(/\+/g, " ") || "Authentication failed",
+        );
+
         // Clean up the URL
-        window.history.replaceState(null, '', window.location.pathname);
+        window.history.replaceState(null, "", window.location.pathname);
       }
     }
   }, []);
@@ -91,17 +101,17 @@ export default function SignIn() {
     e.preventDefault();
     setFormError(undefined);
     setSuccessMessage(undefined);
-    
+
     if (!isValidEmail(email)) {
-      setFormError('Please enter a valid email address.');
+      setFormError("Please enter a valid email address.");
       return;
     }
 
     setLoading(true);
-    
+
     try {
       const formData = new FormData();
-      formData.append('email', email);
+      formData.append("email", email);
 
       const result = await login(formData);
 
@@ -113,8 +123,8 @@ export default function SignIn() {
         setLoading(false);
       }
     } catch (error: any) {
-      console.error('Error signing in:', error);
-      setFormError('An error occurred during sign in. Please try again.');
+      console.error("Error signing in:", error);
+      setFormError("An error occurred during sign in. Please try again.");
       setLoading(false);
     }
   };

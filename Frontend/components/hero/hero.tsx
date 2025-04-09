@@ -10,6 +10,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import AnimatedLogoCloud from './animated-logo-cloud'
 
 export default function Hero() {
   const [email, setEmail] = useState("");
@@ -148,7 +149,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.6 }}
               className="mt-20"
             >
-              <CompanyScroll />
+              <AnimatedLogoCloud />
             </motion.div>
           </div>
         </div>

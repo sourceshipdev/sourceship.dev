@@ -24,8 +24,9 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "canvas-confetti": "^1.9.3",
-    "class-variance-authority": "^0.7.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cobe": "^0.6.3",
     "framer-motion": "^11.0.3",
     "gray-matter": "^4.0.3",
     "lodash": "^4.17.21",
@@ -42,6 +43,7 @@
     "remark-gfm": "^4.0.1",
     "remark-html": "^16.0.1",
     "sharp": "^0.34.0",
+    "sonner": "^2.0.3",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
   },

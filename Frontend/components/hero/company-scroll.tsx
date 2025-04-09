@@ -1,15 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { range } from "lodash";
 import Image from "next/image";
 import exampleLogo from "../../public/logo/example.png";
+import { Marquee } from "@/components/magicui/marquee";
 
 interface Props {
   showHeading?: boolean;
   className?: string;
   align?: "left" | "center";
-  maskBackgroundColor?: "hsl(var(--background-default)" | "hsl(var(--background-alternative)";
 }
 
 const logos = [
@@ -43,91 +42,46 @@ const logos = [
     alt: "example",
     name: "example",
   },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
-  {
-    image: exampleLogo,
-    alt: "example",
-    name: "example",
-  },
 ];
 
-const LogosRow = ({ className }: { className?: string }) => (
-  <div className={cn(className)} suppressHydrationWarning>
-    {logos.map((logo) => (
-      <div key={`logos-group-${logo.name}`} className="h-12 lg:h-12 w-max !inline-block">
-        <Image
-          src={logo.image}
-          alt={logo.alt}
-          width={120}
-          height={60}
-          className="h-12 lg:h-12 !min-h-12 lg:!min-h-12 w-auto block grayscale hover:grayscale-0 transition-all duration-300"
-          draggable={false}
-          priority
-        />
-      </div>
-    ))}
+const firstRow = logos.slice(0, logos.length / 2);
+const secondRow = logos.slice(logos.length / 2);
+
+const LogoItem = ({ logo }: { logo: typeof logos[0] }) => (
+  <div className="h-16 w-max px-12">
+    <Image
+      src={logo.image}
+      alt={logo.alt}
+      width={160}
+      height={80}
+      className="h-16 w-auto block grayscale hover:grayscale-0 transition-all duration-300"
+      draggable={false}
+      priority
+    />
   </div>
 );
 
+// check https://www.firecrawl.dev/ implementation 
 export function CompanyScroll({ className, showHeading = true, align = "center" }: Props) {
-  const gap = "gap-4 lg:gap-8";
-
   return (
-    <div className={cn("pb-14 md:pb-24", className)} suppressHydrationWarning>
-      <div className="max-w-md md:max-w-lg lg:max-w-2xl mx-auto">
-        <div
-          className={cn(
-            "relative w-full mx-auto max-w-4xl opacity-90",
-            "overflow-hidden",
-            "before:content[''] before:absolute before:inset-0 before:w-full before:bg-[linear-gradient(to_right,#05000c_0%,transparent_10%,transparent_90%,#05000c_100%)] before:z-10",
-            "flex flex-nowrap justify-center",
-            "px-5 lg:px-12",
-            align === "left" ? "justify-start ml-0" : "justify-center",
-            gap
-          )}
-        >
-          {range(0, 4).map((_, i) => (
-            <LogosRow
-              key={`logos-group-${i}`}
-              className={cn(
-                gap,
-                "flex flex-nowrap w-fit",
-                "animate-[marquee_90000ms_linear_both_infinite] will-change-transform",
-                "motion-reduce:animate-none motion-reduce:will-change-none"
-              )}
-            />
-          ))}
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+      <p className="mb-8 text-center text-sm font-medium tracking-wider text-[#666666]">
+        Building a startup? Platform your open source technology today.
+      </p>
+      <div className="mask-image-fade w-full">
+        <div className="flex flex-col gap-8">
+          <Marquee pauseOnHover className="[--duration:20s]">
+            {firstRow.map((logo) => (
+              <LogoItem key={logo.name} logo={logo} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]">
+            {secondRow.map((logo) => (
+              <LogoItem key={logo.name} logo={logo} />
+            ))}
+          </Marquee>
         </div>
       </div>
-      {showHeading && (
-        <p className="w-full text-center text-sm text-[#666666] tracking-wider mt-6 lg:mt-8">
-          Building a startup? Platform your open source technology today.
-        </p>
-      )}
     </div>
   );
 } 

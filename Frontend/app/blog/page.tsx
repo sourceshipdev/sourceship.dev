@@ -1,20 +1,33 @@
+'use client';
+
 import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Navbar from "@/components/navbardemo";
+import NavbarDemo from "@/components/navbardemo";
 import Blogpost from "@/components/blog/blogpost";
 import { fetchBlogPosts } from "@/lib/blog";
 import BlogList from "@/components/blog/blog-list";
+import Footer from "@/components/footer";
+import { Background } from "@/components/hero/background";
+import { useEffect, useState } from "react";
 
 export const dynamic = "force-dynamic";
 
-export default async function Blog() {
-  const posts = await fetchBlogPosts();
+export default function Blog() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      const fetchedPosts = await fetchBlogPosts();
+      setPosts(fetchedPosts);
+    };
+    loadPosts();
+  }, []);
 
   return (
-    <main className="min-h-screen bg-[#05000c]/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+    <Background>
       <div className="relative z-10">
-        <Navbar />
+        <NavbarDemo />
         <div className="container mx-auto px-6 py-24">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-24">
@@ -29,7 +42,7 @@ export default async function Blog() {
               </p>
             </div>
 
-            <BlogList initialPosts={posts} />
+            <BlogList posts={posts} />
 
             <div className="text-center mt-24">
               <Link href="/sign-in">
@@ -44,7 +57,8 @@ export default async function Blog() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
-    </main>
+    </Background>
   );
 }

@@ -5,12 +5,80 @@ import { Sparkles, Trophy, Brain, Target, Rocket, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/navbardemo";
-import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
-import { useDelayedReveal } from "@/hooks/use-delayed-reveal";
+import Footer from "@/components/footer";
+import { Background } from "@/components/hero/background";
+import { Globe } from "@/components/magicui/globe";
+import { PulsatingButton } from "@/components/magicui/pulsating-button";
+
+interface GridItemProps {
+  area: string;
+  icon: React.ReactNode;
+  title: string;
+  description: React.ReactNode;
+}
+
+const GridItem = ({ area, icon, title, description }: GridItemProps) => {
+  return (
+    <motion.li 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`min-h-[14rem] list-none ${area}`}
+    >
+      <div className="relative h-full rounded-2.5xl border border-white/10 p-2 md:rounded-3xl md:p-3">
+        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-white/10 p-6 backdrop-blur-sm">
+          <div className="relative flex flex-1 flex-col justify-between gap-3">
+            <div className="w-fit rounded-lg border border-white/20 p-2">
+              {icon}
+            </div>
+            <div className="space-y-3">
+              <h3 className="pt-0.5 text-xl/[1.375rem] font-semibold font-sans -tracking-4 md:text-2xl/[1.875rem] text-balance text-white">
+                {title}
+              </h3>
+              <h2 className="font-sans text-sm/[1.125rem] md:text-base/[1.375rem] text-white/80">
+                {description}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.li>
+  );
+};
+
+const GlobeItem = ({ area }: { area: string }) => {
+  return (
+    <motion.li 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`min-h-[14rem] list-none ${area}`}
+    >
+      <div className="relative h-full rounded-2.5xl border border-white/10 p-2 md:rounded-3xl md:p-3">
+        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-white/10 backdrop-blur-sm">
+          <div className="relative flex h-full flex-col items-center justify-end overflow-hidden pt-8">
+            <div className="relative z-10 text-center space-y-2 mb-12">
+              <h3 className="text-2xl font-semibold text-white">
+                Community Growth
+              </h3>
+              <p className="text-white/80 text-sm/[1.125rem] md:text-base/[1.375rem] max-w-md">
+                Join a thriving community of developers, contribute to meaningful projects, and grow your network through collaborative innovation.
+              </p>
+            </div>
+            <div className="relative w-full flex-1 overflow-hidden">
+              <Globe className="scale-150" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#05000c] via-transparent to-transparent" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.li>
+  );
+};
 
 export default function HowItWorks() {
   return (
-    <main className="min-h-screen bg-[#05000c]/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
+    <Background>
       <div className="relative z-10">
         <Navbar />
         <div className="container mx-auto px-6 py-24">
@@ -32,93 +100,35 @@ export default function HowItWorks() {
               </p>
             </motion.div>
 
-            <BentoGrid className="mb-24">
-              <BentoGridItem
-                content={
-                  <ContentLines
-                    delay={0}
-                    icon={<Brain className="w-6 h-6 text-[#FF4D94]" />}
-                    title="Challenge-Based Learning"
-                    description={
-                      <span className="text-lg">
-                        Solve real-world problems, collaborate with peers, and
-                        showcase your skills through open source and
-                        industry-sponsored challenges.
-                      </span>
-                    }
-                  />
-                }
+            <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2 mb-24">
+              <GridItem
+                area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
+                icon={<Brain className="h-6 w-6 text-[#FF4D94]" />}
+                title="Challenge-Based Learning"
+                description="Solve real-world problems, collaborate with peers, and showcase your skills through open source and industry-sponsored challenges."
               />
-              <BentoGridItem
-                content={
-                  <ContentLines
-                    delay={100}
-                    icon={<Rocket className="w-6 h-6 text-[#FF4D94]" />}
-                    title="AI-Powered Portfolio"
-                    description={
-                      <span className="text-lg">
-                        Our AI automatically builds a professional portfolio
-                        from your projects, highlighting your best work for
-                        recruiters.
-                      </span>
-                    }
-                  />
-                }
+              <GridItem
+                area="md:[grid-area:1/7/2/13] xl:[grid-area:2/1/3/5]"
+                icon={<Rocket className="h-6 w-6 text-[#FF4D94]" />}
+                title="AI-Powered Portfolio"
+                description="Our AI automatically builds a professional portfolio from your projects, highlighting your best work for recruiters."
               />
-              <BentoGridItem
-                className="bg-gradient-to-br from-[#FF4D94] to-[#BF77F6]/60 border-0"
-                content={
-                  <ContentLines
-                    delay={200}
-                    icon={<Target className="w-6 h-6 text-[#BF77F6]" />}
-                    title={
-                      <span className="text-black">
-                        Leaderboard & Recognition
-                      </span>
-                    }
-                    description={
-                      <span className="text-black text-lg">
-                        Climb the leaderboard, earn badges, and get noticed by
-                        top companies based on your impact, not just your
-                        resume.
-                      </span>
-                    }
-                  />
-                }
+              <GlobeItem
+                area="md:[grid-area:2/1/3/7] xl:[grid-area:1/5/3/8]"
               />
-              <BentoGridItem
-                className="md:col-span-2"
-                content={
-                  <ContentLines
-                    delay={200}
-                    icon={<Target className="w-6 h-6 text-[#FF4D94]" />}
-                    title="Career-Boosting Opportunities"
-                    description={
-                      <span className="text-lg">
-                        Companies discover talent based on real contributions,
-                        giving you direct hiring opportunities without the
-                        hassle of traditional applications.
-                      </span>
-                    }
-                  />
-                }
+              <GridItem
+                area="md:[grid-area:2/7/3/13] xl:[grid-area:1/8/2/13]"
+                icon={<Trophy className="h-6 w-6 text-[#FF4D94]" />}
+                title="Career-Boosting Opportunities"
+                description="Companies discover talent based on real contributions, giving you direct hiring opportunities without the hassle of traditional applications."
               />
-              <BentoGridItem
-                content={
-                  <ContentLines
-                    delay={300}
-                    icon={<Users className="w-6 h-6 text-[#FF4D94]" />}
-                    title="Community Growth"
-                    description={
-                      <span className="text-lg">
-                        Join a community of developers who are passionate about
-                        building and growing together.
-                      </span>
-                    }
-                  />
-                }
+              <GridItem
+                area="md:[grid-area:3/1/4/13] xl:[grid-area:2/8/3/13]"
+                icon={<Target className="h-6 w-6 text-[#FF4D94]" />}
+                title="Leaderboard & Recognition"
+                description="Climb the leaderboard, earn badges, and get noticed by top companies based on your impact, not just your resume."
               />
-            </BentoGrid>
+            </ul>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -127,68 +137,18 @@ export default function HowItWorks() {
               className="text-center"
             >
               <Link href="/sign-in">
-                <Button
-                  size="lg"
-                  className="bg-[#FF4D94] hover:bg-[#BF77F7]/80 text-black px-8"
+                <PulsatingButton
+                  className="bg-[#FF4D94] hover:bg-[#BF77F7]/80 text-black px-8 py-6 text-lg font-medium"
                 >
                   <Sparkles className="mr-2 h-5 w-5" />
                   Start Building Your Projects
-                </Button>
+                </PulsatingButton>
               </Link>
             </motion.div>
           </div>
         </div>
+        <Footer />
       </div>
-    </main>
+    </Background>
   );
 }
-
-const ContentLines = ({
-  delay,
-  icon,
-  title,
-  description,
-}: {
-  delay: number;
-  icon: React.ReactNode;
-  title: React.ReactNode;
-  description: React.ReactNode;
-}) => {
-  const { showLines, showText } = useDelayedReveal(delay);
-
-  return (
-    <div className="absolute inset-0 p-4">
-      {!showText && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="space-y-2 mt-12"
-        >
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: showLines ? 1 : 0 }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="h-2 bg-[#FF4D94]/20 rounded-full w-full origin-left"
-            />
-          ))}
-        </motion.div>
-      )}
-      {showText && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="h-full flex flex-col"
-        >
-          <div className="flex items-center gap-2 mb-2">
-            {icon}
-            <div className="font-semibold text-white">{title}</div>
-          </div>
-          <div className="text-sm text-neutral-300">{description}</div>
-        </motion.div>
-      )}
-    </div>
-  );
-};

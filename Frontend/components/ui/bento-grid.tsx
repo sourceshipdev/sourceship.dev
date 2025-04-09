@@ -1,18 +1,19 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
 
 export const BentoGrid = ({
   className,
   children,
 }: {
   className?: string
-  children?: React.ReactNode
+  children: React.ReactNode
 }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-3 gap-4",
+        "grid md:auto-rows-[20rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto",
         className
       )}
     >
@@ -27,24 +28,43 @@ export const BentoGridItem = ({
   description,
   header,
   icon,
-  content
+  delay,
 }: {
   className?: string
   title?: string | React.ReactNode
   description?: string | React.ReactNode
   header?: React.ReactNode
   icon?: React.ReactNode
-  content?: React.ReactNode
+  delay?: number
 }) => {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: delay || 0,
+        ease: "easeOut",
+      }}
       className={cn(
-        "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 bg-black/40 border border-white/[0.2] relative overflow-hidden min-h-[200px]",
+        "group row-span-1 rounded-2xl backdrop-blur-sm border border-white/10 p-8 transition-all hover:bg-white/5",
         className
       )}
     >
       {header}
-      {content}
-    </div>
+      <div className="flex flex-col h-full justify-between">
+        <div>
+          {icon && <div className="mb-4 text-[#FF4D94]">{icon}</div>}
+          {title && (
+            <h2 className="font-bold text-2xl mb-4 text-white group-hover:text-[#FF4D94] transition-colors">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <div className="text-white/80">{description}</div>
+          )}
+        </div>
+      </div>
+    </motion.div>
   )
 } 

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { Github, Twitter, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MemoizedBackground } from "@/components/hero/background";
 import Navbar from "@/components/navbardemo";
 import { useState, useEffect, useCallback } from "react";
 import confetti from "canvas-confetti";
@@ -13,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { login, signup } from "./actions";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Background } from "@/components/hero/background";
 
 const SuccessAnimation = () => (
   <motion.div
@@ -57,11 +57,9 @@ const SignInLayout = ({
   children: React.ReactNode;
   showSuccess: boolean;
 }) => {
-  const isLoginPage = true; // Since this is the login page
-
   return (
-    <div className="relative z-10">
-      {(!showSuccess || isLoginPage) && <Navbar />}
+    <div className="min-h-screen">
+      {!showSuccess && <Navbar />}
       {children}
     </div>
   );
@@ -130,17 +128,16 @@ export default function SignIn() {
   };
 
   return (
-    <main className="min-h-screen bg-[#05000c]/[0.96] antialiased bg-grid-white/[0.02] relative overflow-hidden">
-      <MemoizedBackground />
+    <Background>
       <MemoizedSignInLayout showSuccess={!!successMessage}>
-        <div className="container mx-auto px-6 pt-24 pb-12">
-          <div className="max-w-md mx-auto">
+        <div className="flex items-center justify-center min-h-[calc(100vh-4rem)]">
+          <div className="w-full max-w-md mx-auto px-6">
             {loading ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-black/40 p-8 rounded-2xl backdrop-blur-sm border border-white/10"
+                className="backdrop-blur-sm border border-white/10 p-8 rounded-2xl"
               >
                 <h2 className="text-2xl font-bold text-white mb-8 text-center">
                   Sending Magic Link...
@@ -154,7 +151,7 @@ export default function SignIn() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-black/40 p-8 rounded-2xl backdrop-blur-sm border border-white/10"
+                className="backdrop-blur-sm border border-white/10 p-8 rounded-2xl"
               >
                 <h2 className="text-2xl font-bold text-white mb-4 text-center">
                   Check Your Email
@@ -177,7 +174,7 @@ export default function SignIn() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-black/40 p-8 rounded-2xl backdrop-blur-sm border border-white/10"
+                className="backdrop-blur-sm border border-white/10 p-8 rounded-2xl"
               >
                 <h2 className="text-2xl font-bold text-white mb-8 text-center">
                   Join Waitlist
@@ -211,7 +208,7 @@ export default function SignIn() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="bg-black/50 border-white/10 text-white"
+                      className="border-white/10 text-white bg-white/5"
                       placeholder="Enter your email"
                     />
                   </div>
@@ -232,6 +229,6 @@ export default function SignIn() {
           </div>
         </div>
       </MemoizedSignInLayout>
-    </main>
+    </Background>
   );
 }

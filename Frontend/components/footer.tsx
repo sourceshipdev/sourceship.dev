@@ -22,23 +22,14 @@ export default function Footer() {
             {/* Quick Links */}
             <div>
               <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/how-it-works" className="text-sm text-gray-400 hover:text-white transition-colors">
-                    How It Works
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-sm text-gray-400 hover:text-white transition-colors">
-                    Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-sm text-gray-400 hover:text-white transition-colors">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
+              <div className="flex flex-col space-y-4">
+                <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  Home
+                </Link>
+                <Link href="/#how-it-works" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  How it Works
+                </Link>
+              </div>
             </div>
 
             {/* Resources */}

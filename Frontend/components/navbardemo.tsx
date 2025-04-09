@@ -23,14 +23,17 @@ import {
 } from "@/components/ui/resizable-navbar";
 
 export default function NavbarDemo() {
-  const navItems = [
+  const navigation = [
     {
-      name: "How It Works",
-      link: "/how-it-works",
-    },
-    {
-      name: "Blog",
-      link: "/blog",
+      name: "How it Works",
+      link: "/#how-it-works",
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault();
+        const element = document.getElementById('how-it-works');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     },
   ];
 
@@ -64,7 +67,7 @@ export default function NavbarDemo() {
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
-          <NavItems items={navItems} />
+          <NavItems items={navigation} />
           <div className="flex items-center gap-4">
             <NavbarButton variant="secondary">
               <GitHubStars />
@@ -101,7 +104,7 @@ export default function NavbarDemo() {
             isOpen={isMobileMenuOpen}
             onClose={() => setIsMobileMenuOpen(false)}
           >
-            {navItems.map((item, idx) => (
+            {navigation.map((item, idx) => (
               <a
                 key={`mobile-link-${idx}`}
                 href={item.link}
@@ -114,7 +117,7 @@ export default function NavbarDemo() {
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
+                variant="dark"
                 className="w-full"
               >
                 <GitHubStars />
